@@ -30,8 +30,13 @@ export class AppComponent {
   isCancel: boolean = true;
 
   constructor(private afs: AngularFirestore) {
+    this.init();
+  }
 
+  public init(){
+    // collection
     this.studentCollectionRef = this.afs.collection<IStudent>('students');
+    // get data with ref id
     this.student$ = this.studentCollectionRef.snapshotChanges().map( actions => {
       return actions.map( actions => {
         const data = actions.payload.doc.data() as IStudent;
@@ -39,7 +44,6 @@ export class AppComponent {
         return { id, ...data };
       });
     });
-
   }
 
   clear(){
@@ -67,11 +71,8 @@ export class AppComponent {
       }
    
       if(data.id == undefined){
-        
-
         // Add Query
         this.studentCollectionRef.add(datas);
-
         // Clear data after Save
         this.clear();
       }else{
@@ -121,6 +122,8 @@ export class AppComponent {
                                                         return { id, ...data };
                                                       });
                                                     });
+    }else{
+      this.init();
     }
   }
 
