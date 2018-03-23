@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 // angularfire2
@@ -20,7 +20,8 @@ import { AppComponent } from './app.component';
     MDBBootstrapModule.forRoot(),
     AngularFireModule.initializeApp(environment.firestoreConfig),
     AngularFirestoreModule.enablePersistence(),
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   schemas: [ NO_ERRORS_SCHEMA ],
   providers: [],

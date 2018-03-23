@@ -25,10 +25,11 @@ export class AppComponent {
   studentCollectionRef: AngularFirestoreCollection<IStudent>;
   student$: Observable<IStudent[]>;
   studentID:any;
-  validatingForm:any;
   buttonDisable: boolean = false;
   isCancel: boolean = true;
-
+  isAlert: boolean = false;
+  errorMessage: string = null;
+  alertStyle:string;
   constructor(private afs: AngularFirestore) {
     this.init();
   }
@@ -44,6 +45,12 @@ export class AppComponent {
         return { id, ...data };
       });
     });
+  }
+
+  alert(boolean = true, message, style = "success"){
+    this.isAlert = boolean;
+    this.errorMessage = message;
+    this.alertStyle = style;
   }
 
   clear(){
@@ -62,6 +69,7 @@ export class AppComponent {
       data.lname && data.lname.trim().length &&
       data.course && data.course.trim().length
     ){
+
       // save
       let datas = {
         fname : data.fname,
@@ -75,20 +83,23 @@ export class AppComponent {
         this.studentCollectionRef.add(datas);
         // Clear data after Save
         this.clear();
+        this.alert(true,"Save Success!");
       }else{
         // update
         this.studentCollectionRef.doc(data.id).update(datas);
+        this.alert(true,`Update Success Ref ID = ${data.id}`);
         this.clear();
         this.buttonDisable = false;
         this.isCancel = true;
       }
       
     }else{
-      alert('Insuficient Data');
+      this.alert(true,"Insufficient Data!","danger");
     }
   }
 
   public doUpdate(student){
+    this.isAlert = false;
     this.data.id = student.id;
     this.data.fname = student.fname;
     this.data.mi = student.mi;
@@ -100,12 +111,14 @@ export class AppComponent {
 
   public doDelete(student:any){
     this.studentCollectionRef.doc(student.id).delete();
+    this.alert(true,`Successful Deleted Ref ID = ${student.id}`,"danger");
   }
 
   public doCancel(){
     this.clear();
     this.buttonDisable = false;
     this.isCancel = true;
+    this.isAlert = false;
   }
 
   public search(event){
@@ -114,8 +127,7 @@ export class AppComponent {
       this.student$ = this.afs.collection<IStudent>('students', ref => ref
                                                     .orderBy('lname')
                                                     .startAt(data)
-                                                    .endAt(data+"\uf8ff")
-                                                    .limit(10)).snapshotChanges().map( actions => {
+                                                    .endAt(data+"\uf8ff")).snapshotChanges().map( actions => {
                                                       return actions.map( actions => {
                                                         const data = actions.payload.doc.data() as IStudent;
                                                         const id = actions.payload.doc.id;
@@ -125,6 +137,7 @@ export class AppComponent {
     }else{
       this.init();
     }
+    this.isAlert = false;
   }
 
 }

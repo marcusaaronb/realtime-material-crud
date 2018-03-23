@@ -34,6 +34,7 @@
 <div class="container">
     <form (ngSubmit)="doSave(data)">
         <p class="h5 text-center mb-4"></p>
+        <div class="alert alert-{{ alertStyle }}" *ngIf="isAlert"> {{ errorMessage }} </div>
         <div class="row">
             <input type="hidden" id="id" name="id" [(ngModel)]="data.id">
             <div class="col-md-3">
