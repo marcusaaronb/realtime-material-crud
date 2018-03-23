@@ -107,4 +107,16 @@ export class AppComponent {
     this.isCancel = true;
   }
 
+  public search(event){
+    let data = event.target.value;
+    console.log(data == "");
+    if(data !== ""){
+      this.student$ = this.afs.collection<IStudent>('students', ref => ref
+                                                    .orderBy('lname')
+                                                    .startAt(data)
+                                                    .endAt(data+"\uf8ff")
+                                                    .limit(10)).valueChanges();
+    }
+  }
+
 }
