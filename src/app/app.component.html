@@ -30,6 +30,7 @@
                 </div>
             </div>
             <button type="submit" class="btn btn-success waves-light" mdbRippleRadius>SAVE <i class="fa fa-save"></i></button>
+            <button type="button" class="btn btn-default waves-light" mdbRippleRadius (click)="doCancel()" [disabled]="isCancel">CANCEL <i class="fa fa-ban"></i></button>
         </div>
     </form>
     <p class="h5 text-center mb-4"></p>
@@ -52,7 +53,8 @@
                     <td>{{ student.mi }}</td>
                     <td>{{ student.lname }}</td>
                     <td>{{ student.course }}</td>
-                    <td><button type="button" class="btn btn-warning waves-light btn-sm" mdbRippleRadius (click)="doUpdate(student)">UPDATE</button> <button type="button" class="btn btn-danger waves-light btn-sm" mdbRippleRadius (click)="doDelete(student)">DELETE</button></td>
+                    <td><button type="button" class="btn btn-warning waves-light btn-sm" mdbRippleRadius (click)="doUpdate(student)" [disabled]="buttonDisable">UPDATE <i class="fa fa-edit"></i></button>
+                        <button type="button" class="btn btn-danger waves-light btn-sm" mdbRippleRadius (click)="doDelete(student)" [disabled]="buttonDisable">DELETE <i class="fa fa-trash"></i></button></td>
                 </tr>
             </tbody>
         </table>

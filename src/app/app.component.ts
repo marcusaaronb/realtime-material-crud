@@ -26,6 +26,8 @@ export class AppComponent {
   student$: Observable<IStudent[]>;
   studentID:any;
   validatingForm:any;
+  buttonDisable: boolean = false;
+  isCancel: boolean = true;
 
   constructor(private afs: AngularFirestore) {
 
@@ -42,6 +44,7 @@ export class AppComponent {
 
   clear(){
     // Clear data after Save
+    this.data.id = null;
     this.data.fname = null;
     this.data.mi = null;
     this.data.lname = null;
@@ -50,10 +53,10 @@ export class AppComponent {
 
   public doSave(data:any){
     if(
-      data.fname && data.fname.trim().length ||
-      data.mi && data.mi.trim().length ||
-      data.lname && data.lname.trim().length ||
-      data.course && data.course.trim().length 
+      data.fname && data.fname.trim().length &&
+      data.mi && data.mi.trim().length &&
+      data.lname && data.lname.trim().length &&
+      data.course && data.course.trim().length
     ){
       // save
       let datas = {
@@ -75,6 +78,8 @@ export class AppComponent {
         // update
         this.studentCollectionRef.doc(data.id).update(datas);
         this.clear();
+        this.buttonDisable = false;
+        this.isCancel = true;
       }
       
     }else{
@@ -88,11 +93,18 @@ export class AppComponent {
     this.data.mi = student.mi;
     this.data.lname = student.lname;
     this.data.course = student.course;
+    this.buttonDisable = true;
+    this.isCancel = false;
   }
 
   public doDelete(student:any){
     this.studentCollectionRef.doc(student.id).delete();
   }
 
+  public doCancel(){
+    this.clear();
+    this.buttonDisable = false;
+    this.isCancel = true;
+  }
 
 }
