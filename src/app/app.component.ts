@@ -109,7 +109,6 @@ export class AppComponent {
 
   public search(event){
     let data = event.target.value;
-    console.log(data == "");
     if(data !== ""){
       this.student$ = this.afs.collection<IStudent>('students', ref => ref
                                                     .orderBy('lname')

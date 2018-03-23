@@ -9,13 +9,11 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from './../environments/environment.prod';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './shared/components/navbar/navbar/navbar.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
