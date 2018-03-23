@@ -114,7 +114,13 @@ export class AppComponent {
                                                     .orderBy('lname')
                                                     .startAt(data)
                                                     .endAt(data+"\uf8ff")
-                                                    .limit(10)).valueChanges();
+                                                    .limit(10)).snapshotChanges().map( actions => {
+                                                      return actions.map( actions => {
+                                                        const data = actions.payload.doc.data() as IStudent;
+                                                        const id = actions.payload.doc.id;
+                                                        return { id, ...data };
+                                                      });
+                                                    });
     }
   }
 
