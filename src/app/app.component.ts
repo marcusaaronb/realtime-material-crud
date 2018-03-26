@@ -28,8 +28,10 @@ export class AppComponent {
   buttonDisable: boolean = false;
   isCancel: boolean = true;
   isAlert: boolean = false;
+  isAdd: boolean = false;
   errorMessage: string = null;
   alertStyle:string;
+
   constructor(private afs: AngularFirestore) {
     this.init();
   }
@@ -84,6 +86,7 @@ export class AppComponent {
         // Clear data after Save
         this.clear();
         this.alert(true,"Save Success!");
+        this.isAdd = false;
       }else{
         // update
         this.studentCollectionRef.doc(data.id).update(datas);
@@ -91,6 +94,7 @@ export class AppComponent {
         this.clear();
         this.buttonDisable = false;
         this.isCancel = true;
+        this.isAdd = false;
       }
       
     }else{
@@ -107,11 +111,14 @@ export class AppComponent {
     this.data.course = student.course;
     this.buttonDisable = true;
     this.isCancel = false;
+    this.isAdd = true;
   }
 
   public doDelete(student:any){
-    this.studentCollectionRef.doc(student.id).delete();
-    this.alert(true,`Successful Deleted Ref ID = ${student.id}`,"danger");
+    if(confirm("Are you sure you want to delete?")){
+      this.studentCollectionRef.doc(student.id).delete();
+      this.alert(true,`Successful Deleted Ref ID = ${student.id}`,"danger");
+    }
   }
 
   public doCancel(){
@@ -119,6 +126,7 @@ export class AppComponent {
     this.buttonDisable = false;
     this.isCancel = true;
     this.isAlert = false;
+    this.isAdd = false;
   }
 
   public search(event){
@@ -138,6 +146,11 @@ export class AppComponent {
       this.init();
     }
     this.isAlert = false;
+  }
+
+  doAdd(){
+    this.isAdd = true;
+    this.isCancel = false;
   }
 
 }
