@@ -118,6 +118,7 @@ export class AppComponent {
     if(confirm("Are you sure you want to delete?")){
       this.studentCollectionRef.doc(student.id).delete();
       this.alert(true,`Successful Deleted Ref ID = ${student.id}`,"danger");
+      this.isAdd = false;
     }
   }
 
