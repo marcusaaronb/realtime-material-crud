@@ -151,6 +151,7 @@ export class AppComponent {
   doAdd(){
     this.isAdd = true;
     this.isCancel = false;
+    this.isAlert = false;
   }
 
 }
